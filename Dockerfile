@@ -15,6 +15,10 @@ FROM php:8-fpm-alpine
 RUN apk add --no-cache \
     && apk add -U \
     $PHPIZE_DEPS \
+    libsmbclient-dev \
+    smbclient \
+    gmp \
+    gmp-dev \
     imagemagick \
     imagemagick-libs \
     imagemagick-dev \
@@ -41,30 +45,37 @@ RUN set -eux; \
 	docker-php-ext-configure zip; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
+		gmp \
 		intl \
+		bcmath \
 		mysqli \
 		opcache \
 		pdo_mysql \
 		zip
+		
+ RUN pecl install smbclient 
+ RUN docker-php-ext-enable smbclient
+ 
+ #install imagick
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
+
+
 
 # install xdebug
 # RUN pecl install xdebug
 # RUN docker-php-ext-enable xdebug
 
-RUN echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.remote_autostart=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.default_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.remote_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.profiler_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.remote_log=\"/tmp/xdebug.log\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-#install imagick
-RUN pecl install imagick
-RUN docker-php-ext-enable imagick
+# RUN echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN echo "xdebug.remote_autostart=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN echo "xdebug.default_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN echo "xdebug.remote_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN echo "xdebug.profiler_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN echo "xdebug.remote_log=\"/tmp/xdebug.log\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # install composer
-RUN cd /tmp \
-    && curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
+# RUN cd /tmp \
+#     && curl -sS https://getcomposer.org/installer | php \
+#     && mv composer.phar /usr/local/bin/composer
