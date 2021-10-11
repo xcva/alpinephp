@@ -35,9 +35,9 @@ RUN apk add --no-cache \
     nano && \
 docker-php-ext-configure gd \
   --with-gd \
-  --with-freetype-dir=/usr/include/ \
-  --with-png-dir=/usr/include/ \
-  --with-jpeg-dir=/usr/include/ && \
+  --with-freetype \
+  --with-png \
+  --with-jpeg && \
 docker-php-ext-configure intl; \
 docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
 docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
