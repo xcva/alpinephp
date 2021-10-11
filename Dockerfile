@@ -63,7 +63,7 @@ RUN docker-php-ext-enable smbclient
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 
-apk del --no-cache \
+RUN apk del --no-cache \
     libsmbclient \
     gmp \
     gmp-dev \
