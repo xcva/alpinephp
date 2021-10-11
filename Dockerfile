@@ -24,18 +24,15 @@ RUN apk add --no-cache \
     imagemagick-dev \
     freetype-dev \
     icu-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libwebp-dev \ 
-    libxpm-dev \
     libjpeg-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
     libpng-dev \
+    jpeg-dev \
+    zlib-dev \
     curl \
     unzip \
     libzip-dev \
-    zlib-dev \
     zip \
     nano && \
 docker-php-ext-configure gd \
