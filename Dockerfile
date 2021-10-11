@@ -12,9 +12,11 @@ FROM php:8-fpm-alpine
 
 # install dependencies
 
-RUN apk --update add ca-certificates \
+RUN apk add --no-cache \
     && apk add -U \
     $PHPIZE_DEPS \
+    && pecl install pthreads \
+    && docker-php-ext-enable pthreads \
     freetype-dev \
     icu-dev \
     libjpeg-turbo-dev \
