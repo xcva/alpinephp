@@ -14,6 +14,7 @@ FROM php:8-fpm-alpine
 
 RUN apk --update add ca-certificates \
     && apk add -U \
+    $PHPIZE_DEPS \
     freetype-dev \
     icu-dev \
     libjpeg-turbo-dev \
@@ -56,9 +57,9 @@ RUN echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/docker-php-
 RUN echo "xdebug.profiler_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN echo "xdebug.remote_log=\"/tmp/xdebug.log\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-# install imagick
-#RUN pecl install imagick
-#RUN docker-php-ext-enable imagick
+install imagick
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
 
 # install composer
 RUN cd /tmp \
