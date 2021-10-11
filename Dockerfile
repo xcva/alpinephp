@@ -24,6 +24,10 @@ RUN apk add --no-cache \
     imagemagick-dev \
     freetype-dev \
     icu-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libwebp-dev \ 
+    libxpm-dev \
     libjpeg-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
