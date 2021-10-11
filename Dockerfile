@@ -57,8 +57,8 @@ RUN echo "xdebug.profiler_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-
 RUN echo "xdebug.remote_log=\"/tmp/xdebug.log\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # install imagick
-RUN pecl install imagick
-RUN docker-php-ext-enable imagick
+#RUN pecl install imagick
+#RUN docker-php-ext-enable imagick
 
 # install composer
 RUN cd /tmp \
