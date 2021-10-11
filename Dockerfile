@@ -30,7 +30,7 @@ RUN apk --update add ca-certificates \
 
 # configure, install and enable all php packages, format updated with Tianon's comment below
 RUN set -eux; \
-	docker-php-ext-configure gd --enable-gd --with-freetype --with-png --with-jpeg; \
+	docker-php-ext-configure gd --enable-gd --with-freetype; \
 	docker-php-ext-configure intl; \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
 	docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
