@@ -80,7 +80,7 @@ RUN apk del --no-cache \
     unzip \
     libzip-dev \
     zip \
-    nano && \
+    nano 
 
 
 
