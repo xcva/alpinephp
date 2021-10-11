@@ -14,13 +14,10 @@ FROM php:8-fpm-alpine
 
 RUN apk add --no-cache \
     $PHPIZE_DEPS \
-    samba-dev \
-    libsmbclient \
+#     samba-dev \
+#     libsmbclient \
     gmp \
     gmp-dev \
-    imagemagick \
-    imagemagick-libs \
-    imagemagick-dev \
     freetype-dev \
     icu-dev \
     libjpeg-turbo-dev \
@@ -56,12 +53,17 @@ docker-php-ext-install -j "$(nproc)" \
 	pdo_mysql \
 	zip
 
-RUN pecl install smbclient 
-RUN docker-php-ext-enable smbclient
+# RUN pecl install smbclient 
+# RUN docker-php-ext-enable smbclient
+
+RUN apk add imagemagick
+RUN apk add imagemagick-dev
+
+RUN apk add --update --no-cache autoconf g++ imagemagick-dev libtool make pcre-dev \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && apk del autoconf g++ libtool make pcre-dev
  
- #install imagick
-RUN pecl install imagick
-RUN docker-php-ext-enable imagick
 
 
 
