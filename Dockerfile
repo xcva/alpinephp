@@ -15,8 +15,6 @@ FROM php:8-fpm-alpine
 RUN apk add --no-cache \
     && apk add -U \
     $PHPIZE_DEPS \
-    && pecl install pthreads \
-    && docker-php-ext-enable pthreads \
     freetype-dev \
     icu-dev \
     libjpeg-turbo-dev \
