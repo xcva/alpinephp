@@ -13,7 +13,6 @@ FROM php:8-fpm-alpine
 # install dependencies
 
 RUN apk add --no-cache \
-    && apk add -U \
     $PHPIZE_DEPS \
     samba-dev \
     libsmbclient \
@@ -37,9 +36,12 @@ RUN apk add --no-cache \
     nano && \
 docker-php-ext-configure gd \
   --with-gd \
+  –with-external-gd \
+  –with-webp \
+  –with-jpeg \
+  –with-xpm \
   --with-freetype \
-  --with-png \
-  --with-jpeg && \
+  --with-png && \
 docker-php-ext-configure intl; \
 docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
 docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
