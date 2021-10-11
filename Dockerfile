@@ -15,8 +15,8 @@ FROM php:8-fpm-alpine
 RUN apk add --no-cache \
     && apk add -U \
     $PHPIZE_DEPS \
-    libsmbclient-dev \
-    smbclient \
+    samba-dev \
+    libsmbclient \
     gmp \
     gmp-dev \
     imagemagick \
