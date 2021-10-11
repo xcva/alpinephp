@@ -35,6 +35,7 @@ RUN apk add --no-cache \
     curl \
     unzip \
     libzip-dev \
+    zlib-dev \
     zip \
     nano && \
 docker-php-ext-configure gd \
