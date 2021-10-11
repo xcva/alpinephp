@@ -33,12 +33,15 @@ RUN apk add --no-cache \
     libzip-dev \
     zip \
     nano && \
-    rm -rf /var/lib/apt/lists/*
 
 
 # configure, install and enable all php packages, format updated with Tianon's comment below
 RUN set -eux; \
-	docker-php-ext-configure gd --enable-gd --with-freetype; \
+	docker-php-ext-configure gd \
+          --with-gd \
+          --with-freetype-dir=/usr/include/ \
+          --with-png-dir=/usr/include/ \
+          --with-jpeg-dir=/usr/include/ && \
 	docker-php-ext-configure intl; \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
 	docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
@@ -53,12 +56,31 @@ RUN set -eux; \
 		pdo_mysql \
 		zip
 		
- RUN pecl install smbclient 
- RUN docker-php-ext-enable smbclient
+RUN pecl install smbclient 
+RUN docker-php-ext-enable smbclient
  
  #install imagick
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
+
+apk del --no-cache \
+    libsmbclient \
+    gmp \
+    gmp-dev \
+    imagemagick \
+    imagemagick-libs \
+    imagemagick-dev \
+    freetype-dev \
+    icu-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libmcrypt-dev \
+    libpng-dev \
+    curl \
+    unzip \
+    libzip-dev \
+    zip \
+    nano && \
 
 
 
