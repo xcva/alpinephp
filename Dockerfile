@@ -3,7 +3,7 @@ RUN apk --update add --no-cache \
 $PHPIZE_DEPS mysql-client msmtp perl wget \
 procps shadow libzip libpng libjpeg-turbo \
 libwebp freetype icu samba-dev libsmbclient \
-gmp gmp-dev imagemagick imagemagick-dev
+gmp gmp-dev imagemagick imagemagick-dev ffmpeg 
 
 RUN pecl install smbclient 
 RUN docker-php-ext-enable smbclient
@@ -25,6 +25,7 @@ RUN apk add --no-cache --virtual build-essentials \
     pecl install imagick && \
     docker-php-ext-enable imagick && \
     apk del build-essentials && \
+    apk del autoconf g++ make && \
 #     apk del autoconf g++ libtool make pcre-dev && \
     rm -rf /usr/src/php*
 
