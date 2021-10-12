@@ -16,6 +16,7 @@ RUN apk add --no-cache \
     $PHPIZE_DEPS \
     samba-dev \
     libsmbclient \
+    libxml2-dev \
     gmp \
     gmp-dev \
     freetype-dev \
