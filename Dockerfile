@@ -24,6 +24,7 @@ RUN apk add --no-cache \
     libjpeg-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
+    oniguruma-dev \
     libpng-dev \
     jpeg-dev \
     zlib-dev \
