@@ -1,32 +1,87 @@
-FROM php:8.0.0-fpm-alpine
-RUN apk --update add --no-cache \
-$PHPIZE_DEPS mysql-client msmtp perl wget \
-procps shadow libzip libpng libjpeg-turbo \
-libwebp freetype icu samba-dev libsmbclient \
-gmp gmp-dev imagemagick imagemagick-dev ffmpeg 
+FROM php:8.0-fpm-alpine3.14
 
-RUN pecl install smbclient 
-RUN docker-php-ext-enable smbclient
+RUN set -ex; \
+    \
+    apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        samba-dev \
+        libsmbclient \
+        autoconf \
+        freetype-dev \
+        icu-dev \
+        libevent-dev \
+        libjpeg-turbo-dev \
+        libmcrypt-dev \
+        libpng-dev \
+        libmemcached-dev \
+        libxml2-dev \
+        libzip-dev \
+        openldap-dev \
+        pcre-dev \
+        postgresql-dev \
+        imagemagick-dev \
+        libwebp-dev \
+        gmp-dev \
+    ; \
+    \
+    docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
+    docker-php-ext-configure ldap; \
+    docker-php-ext-install -j "$(nproc)" \
+        bcmath \
+        exif \
+        gd \
+        intl \
+        ldap \
+        opcache \
+        pcntl \
+        pdo_mysql \
+        pdo_pgsql \
+        zip \
+        gmp \
+    ; \
+    \
+# pecl will claim success even if one install fails, so we need to perform each install separately
+    pecl install APCu-5.1.20; \
+    pecl install memcached-3.1.5; \
+    pecl install redis-5.3.4; \
+    pecl install imagick-3.5.1; \
+    pecl install smbclient; \
+    \
+    docker-php-ext-enable \
+        apcu \
+        memcached \
+        redis \
+        imagick \
+        smbclient \
+    ; \
+    rm -r /tmp/pear; \
+    \
+    runDeps="$( \
+        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+            | tr ',' '\n' \
+            | sort -u \
+            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    )"; \
+    apk add --virtual .nextcloud-phpext-rundeps $runDeps; \
+    apk del .build-deps
 
- 
-RUN apk add --no-cache --virtual build-essentials \
-    icu-dev icu-libs zlib-dev g++ make automake autoconf libzip-dev imagemagick-dev \
-    libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev && \
-    docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
-    docker-php-ext-install gd && \
-    docker-php-ext-install gmp && \
-    docker-php-ext-install bcmath && \
-    docker-php-ext-install mysqli && \
-    docker-php-ext-install pdo_mysql && \
-    docker-php-ext-install intl && \
-    docker-php-ext-install opcache && \
-    docker-php-ext-install exif && \
-    docker-php-ext-install zip && \
-    pecl install imagick && \
-    docker-php-ext-enable imagick && \
-    apk del build-essentials && \
-    apk del autoconf g++ make && \
-#     apk del autoconf g++ libtool make pcre-dev && \
-    rm -rf /usr/src/php*
-
-RUN wget https://getcomposer.org/composer-stable.phar -O /usr/local/bin/composer && chmod +x /usr/local/bin/composer
+# set recommended PHP.ini settings
+# see https://docs.nextcloud.com/server/stable/admin_manual/configuration_server/server_tuning.html#enable-php-opcache
+ENV PHP_MEMORY_LIMIT 512M
+ENV PHP_UPLOAD_LIMIT 512M
+RUN { \
+        echo 'opcache.enable=1'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.max_accelerated_files=10000'; \
+        echo 'opcache.memory_consumption=128'; \
+        echo 'opcache.save_comments=1'; \
+        echo 'opcache.revalidate_freq=1'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini; \
+    \
+    echo 'apc.enable_cli=1' >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini; \
+    \
+    { \
+        echo 'memory_limit=${PHP_MEMORY_LIMIT}'; \
+        echo 'upload_max_filesize=${PHP_UPLOAD_LIMIT}'; \
+        echo 'post_max_size=${PHP_UPLOAD_LIMIT}'; \
+    } > /usr/local/etc/php/conf.d/nextcloud.ini; \
