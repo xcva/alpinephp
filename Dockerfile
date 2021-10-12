@@ -18,6 +18,7 @@ RUN apk add --no-cache \
     libsmbclient \
     libxml2-dev \
     gmp \
+    curl-dev \
     gmp-dev \
     freetype-dev \
     icu-dev \
@@ -51,10 +52,9 @@ docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
 docker-php-ext-configure zip
 
 RUN set -e; docker-php-ext-install -j "$(nproc)" \
-                gd soap imap bcmath mbstring iconv curl sockets \
+                gd soap imap bcmath mbstring iconv curl \
                 opcache \
                 pdo_pgsql \
-                xsl \
                 exif \
                 mysqli pdo pdo_mysql \
                 intl \
