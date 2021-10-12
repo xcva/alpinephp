@@ -24,7 +24,7 @@ RUN apk add --no-cache --virtual build-essentials \
     pecl install imagick && \
     docker-php-ext-enable imagick && \
     apk del build-essentials && \
-    apk del autoconf g++ libtool make pcre-dev && \
+#     apk del autoconf g++ libtool make pcre-dev && \
     rm -rf /usr/src/php*
 
 RUN wget https://getcomposer.org/composer-stable.phar -O /usr/local/bin/composer && chmod +x /usr/local/bin/composer
