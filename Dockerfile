@@ -3,7 +3,7 @@ RUN apk --update add --no-cache \
 $PHPIZE_DEPS mysql-client msmtp perl wget \
 procps shadow libzip libpng libjpeg-turbo \
 libwebp freetype icu samba-dev libsmbclient \
-gmp imagemagick imagemagick-dev
+gmp gmp-dev imagemagick imagemagick-dev
 
 RUN pecl install smbclient 
 RUN docker-php-ext-enable smbclient
