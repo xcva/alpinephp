@@ -19,6 +19,7 @@ RUN set -ex; \
         openldap-dev \
         pcre-dev \
         postgresql-dev \
+        imagemagick \
         imagemagick-dev \
         libwebp-dev \
         gmp-dev \
@@ -44,7 +45,7 @@ RUN set -ex; \
     pecl install APCu-5.1.20; \
     pecl install memcached-3.1.5; \
     pecl install redis-5.3.4; \
-    pecl install imagick-3.5.1; \
+    pecl install imagick; \
     pecl install smbclient; \
     \
     docker-php-ext-enable \
@@ -67,8 +68,8 @@ RUN set -ex; \
 
 # set recommended PHP.ini settings
 # see https://docs.nextcloud.com/server/stable/admin_manual/configuration_server/server_tuning.html#enable-php-opcache
-ENV PHP_MEMORY_LIMIT 512M
-ENV PHP_UPLOAD_LIMIT 512M
+# ENV PHP_MEMORY_LIMIT 512M
+# ENV PHP_UPLOAD_LIMIT 512M
 RUN { \
         echo 'opcache.enable=1'; \
         echo 'opcache.interned_strings_buffer=8'; \
