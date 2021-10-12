@@ -54,7 +54,7 @@ docker-php-ext-configure zip
 RUN set -e; docker-php-ext-install -j "$(nproc)" \
                 gd soap imap bcmath mbstring iconv curl \
                 opcache \
-                pdo_pgsql \
+#                 pdo_pgsql \
                 exif \
                 mysqli pdo pdo_mysql \
                 intl \
