@@ -28,6 +28,7 @@ RUN apk add --no-cache \
     jpeg-dev \
     zlib-dev \
     curl \
+    imap-dev \
     unzip \
     libzip-dev \
     zip && \
@@ -39,6 +40,9 @@ docker-php-ext-configure gd \
   –with-xpm \
   --with-freetype \
   --with-png && \
+  
+docker-php-ext-configure imap --with-imap --with-imap-ssl; \
+docker-php-ext-install imap; \
   
 docker-php-ext-configure intl; \
 docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
