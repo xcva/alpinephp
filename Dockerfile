@@ -14,8 +14,8 @@ FROM php:8-fpm-alpine
 
 RUN apk add --no-cache \
     $PHPIZE_DEPS \
-#     samba-dev \
-#     libsmbclient \
+    samba-dev \
+    libsmbclient \
     gmp \
     gmp-dev \
     freetype-dev \
@@ -29,32 +29,33 @@ RUN apk add --no-cache \
     curl \
     unzip \
     libzip-dev \
-    zip \
-    nano && \
+    zip && \
 docker-php-ext-configure gd \
-  --with-gd \
-  –with-external-gd \
+#   --with-gd \
+#   –with-external-gd \
   –with-webp \
   –with-jpeg \
   –with-xpm \
   --with-freetype \
   --with-png && \
+  
 docker-php-ext-configure intl; \
 docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
 docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
-docker-php-ext-configure zip; \
-docker-php-ext-install -j "$(nproc)" \
-	gd \
-	gmp \
-	intl \
-	bcmath \
-	mysqli \
-	opcache \
-	pdo_mysql \
-	zip
+docker-php-ext-configure zip
 
-# RUN pecl install smbclient 
-# RUN docker-php-ext-enable smbclient
+RUN set -e; docker-php-ext-install -j "$(nproc)" \
+                gd soap imap bcmath mbstring iconv curl sockets \
+                opcache \
+                pdo_pgsql \
+                xsl \
+                exif \
+                mysqli pdo pdo_mysql \
+                intl \
+                zip
+
+RUN pecl install smbclient 
+RUN docker-php-ext-enable smbclient
 
 RUN apk add imagemagick
 RUN apk add imagemagick-dev
