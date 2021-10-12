@@ -1,5 +1,5 @@
 FROM php:8.0.0-fpm-alpine
-RUN apk add --no-cache \
+RUN apk --update add --no-cache \
 $PHPIZE_DEPS mysql-client msmtp perl wget \
 procps shadow libzip libpng libjpeg-turbo \
 libwebp freetype icu samba-dev libsmbclient \
@@ -10,7 +10,7 @@ RUN docker-php-ext-enable smbclient
 
  
 RUN apk add --no-cache --virtual build-essentials \
-    icu-dev icu-libs zlib-dev g++ make automake autoconf libzip-dev imagemagick-dev libtool pcre-dev\
+    icu-dev icu-libs zlib-dev g++ make automake autoconf libzip-dev imagemagick-dev libtool pcre-dev \
     libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev && \
     docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
     docker-php-ext-install gd && \
