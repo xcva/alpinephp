@@ -10,7 +10,7 @@ RUN docker-php-ext-enable smbclient
 
  
 RUN apk add --no-cache --virtual build-essentials \
-    icu-dev icu-libs zlib-dev g++ make automake autoconf libzip-dev imagemagick-dev libtool pcre-dev \
+    icu-dev icu-libs zlib-dev g++ make automake autoconf libzip-dev imagemagick-dev \
     libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev && \
     docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
     docker-php-ext-install gd && \
