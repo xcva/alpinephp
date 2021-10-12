@@ -14,6 +14,7 @@ RUN apk add --no-cache --virtual build-essentials \
     libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev && \
     docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
     docker-php-ext-install gd && \
+    docker-php-ext-install gmp && \
     docker-php-ext-install bcmath && \
     docker-php-ext-install mysqli && \
     docker-php-ext-install pdo_mysql && \
