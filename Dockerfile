@@ -1,5 +1,6 @@
 FROM php:8.0-fpm-alpine3.14
 
+RUN apk add imagemagick 
 RUN set -ex; \
     \
     apk add --no-cache --virtual .build-deps \
@@ -19,10 +20,10 @@ RUN set -ex; \
         openldap-dev \
         pcre-dev \
         postgresql-dev \
-        imagemagick \
-        imagemagick-libs \
-        imagemagick6-libs \
-        imagemagick-dev \
+#         imagemagick \
+#         imagemagick-libs \
+#         imagemagick6-libs \
+#         imagemagick-dev \
         libwebp-dev \
         gmp-dev \
     ; \
