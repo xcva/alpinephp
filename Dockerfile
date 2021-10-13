@@ -71,6 +71,7 @@ RUN set -ex; \
 # see https://docs.nextcloud.com/server/stable/admin_manual/configuration_server/server_tuning.html#enable-php-opcache
 ENV PHP_MEMORY_LIMIT 512M
 ENV PHP_UPLOAD_LIMIT 512M
+RUN apk add --no-cache imagemagick
 RUN { \
         echo 'opcache.enable=1'; \
         echo 'opcache.interned_strings_buffer=8'; \
