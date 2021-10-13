@@ -20,9 +20,8 @@ RUN set -ex; \
         pcre-dev \
         postgresql-dev \
         imagemagick \
-#         imagemagick-libs \
-#         imagemagick6-libs \
-#         imagemagick-dev \
+        imagemagick-libs \
+        imagemagick-dev \
         libwebp-dev \
         gmp-dev \
     ; \
