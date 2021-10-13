@@ -21,7 +21,7 @@ RUN set -ex; \
         postgresql-dev \
         imagemagick \
         imagemagick-libs \
-        imagemagick6-libs
+        imagemagick6-libs \
         imagemagick-dev \
         libwebp-dev \
         gmp-dev \
