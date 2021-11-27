@@ -2,6 +2,7 @@ FROM php:8.0-fpm-alpine3.14
 
 RUN apk --update add ca-certificates \
     && apk add -U \
+    postgresql \
     postgresql-dev \
     freetype-dev \
     icu-dev \
@@ -22,11 +23,13 @@ RUN apk --update add ca-certificates \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
 	docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
 	docker-php-ext-configure zip; \
-    docker-php-ext-configure pdo_pgsql; \
+        docker-php-ext-configure pdo_pgsql; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
 		intl \
 		mysqli \
 		opcache \
 		pdo_mysql \
+                pgsql \
+                pdo_pgsql \
 		zip
