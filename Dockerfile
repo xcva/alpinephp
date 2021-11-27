@@ -2,6 +2,7 @@ FROM php:8.0-fpm-alpine3.14
 
 RUN apk --update add ca-certificates \
     && apk add -U \
+    postgresql \
     freetype-dev \
     icu-dev \
     libjpeg-turbo-dev \
